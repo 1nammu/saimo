@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>短信天气可视化屏</title>
+  <title>Document</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+  <header>
+    <h1>短信天气可视化屏</h1>
+  </header>
+  <section class="mainbox">
+    <div class="column">
+      <div class="panel bar">
+        <h2>
+          表白至今关怀短信发送数量
+        </h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel line">
+        <h2>未来五天温度变化</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel pie">
+        <h2>表白至今温度区间天数分布</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="no">
+        <div class="no-hd">
+          <ul>
+            <li class="dcount">108</li>
+            <li class="lcount">10886405</li>
+          </ul>
+        </div>
+        <div class="no-bd">
+          <ul>
+            <li>追求天数</li>
+            <li>心跳次数</li>
+          </ul>
+        </div>
+      </div>
+      <div class="map">
+        <div class="chart"></div>
+        <div class="map1"></div>
+        <div class="map2"></div>
+        <div class="map3"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="panel bar1">
+        <h2>表白至今风向数据分布</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel line1">
+        <h2>未来五天风速大小</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel pie1">
+        <h2>表白至今每天天气占比</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/flexible.js"></script>
+  <script src="js/echarts.min.js"></script>
+  <script>
+        //{"smsType":{"names":["情话"],"values":[24]},
+        // "status":0,"temp":{"high":["28","30","32","33","34"],
+        // "low":["19","19","20","20","23"]},"tempType":[0,0,0,24,0],
+        // "time":1632969493661,"weatherType":[{"name":"小雨","value":24}],
+        // "winddirect":{"names":["西北风"],"values":[24]},
+        // "windpower":{"high":["2","1","2","2","2"],"low":["2","1","2","2","2"]}}
+
+        const gData = {
+          "smsType": {"names": ["情话"], "values": []},
+          "status": 0,
+          "temp": {"high": ["10", "11", "12", "13", "14"], "low": ["10", "11", "12", "13", "14"]},
+          "tempType": [0, 1, 0, 0, 0],
+          "time": 1632984576914,
+          "weatherType": [{"name": "晴", "value": 1}],
+          "winddirect": {"names": ["南风"], "values": [1]},
+          "windpower": {"high": ["10", "11", "12", "13", "14"], "low": ["10", "11", "12", "13", "14"]}
+      };
+
+
+      (function (fn) {
+      fn();
+      //加载数据，每10分钟加载一次。
+      setInterval(fn, 600000);
+    })(function () {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET','dataView',true);
+      xhr.onreadystatechange=function(){
+        // readyState == 4说明请求已完成
+        if(xhr.readyState==4){
+          if(xhr.status==200 || xhr.status==304){
+            alert(xhr.responseText);
+            // gData = JSON.parse(xhr.responseText);
+            alert(gData)
+            time = gData.time
+            chartResize();
+          }
+        }
+      }
+      xhr.send();
+
+
+    });
+
+    //这里开始时间
+    let time = 0;
+
+    (function (fn) {
+      fn();
+      setInterval(fn, 857);
+    })(function () {
+
+      let text = parseInt((new Date().getTime() - time)/3600000/24);
+      document.querySelector(".dcount").innerHTML = text;
+      text = parseInt((new Date().getTime() - time)/60000*70);
+      document.querySelector(".lcount").innerHTML = text;
+    });
+  </script>
+  <script src="js/index.js"></script>
+  <script src="js/china.js"></script>
+  <script src="js/myMap.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+
+
+  datasource:
+    url: jdbc:mysql://110.40.147.135/ota?serverTimezone=GMT%2B8&characterEncoding=utf8
+    username: root
+    password: TANGpeng1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
